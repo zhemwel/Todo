@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import React, { useTransition } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { PinLeftIcon } from "@radix-ui/react-icons";
 
 export default function SignOut() {
 	const [isPending, startTransition] = useTransition();
@@ -14,16 +15,14 @@ export default function SignOut() {
 	};
 
 	return (
-		<form action={onSubmit}>
-			<Button
-				className="w-full flex items-center gap-2"
-				variant="outline"
-			>
-				SignOut{" "}
-				<AiOutlineLoading3Quarters
-					className={cn(" animate-spin", { hidden: !isPending })}
-				/>
-			</Button>
-		</form>
-	);
+    <form action={onSubmit}>
+      <Button className="w-full flex items-center gap-2" variant="outline">
+        <PinLeftIcon />
+        Sign Out{" "}
+        <AiOutlineLoading3Quarters
+          className={cn(" animate-spin", { hidden: !isPending })}
+        />
+      </Button>
+    </form>
+  );
 }

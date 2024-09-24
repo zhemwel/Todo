@@ -55,7 +55,7 @@ export default function AuthForm() {
 				});
 			} else {
 				toast({
-					title: "Successfully login 🎉",
+					title: "Successfully Login 🎉",
 				});
 			}
 		});
@@ -75,7 +75,7 @@ export default function AuthForm() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input placeholder="shadcn" {...field} />
+									<Input placeholder="Enter Email" {...field} />
 								</FormControl>
 
 								<FormMessage />
@@ -90,14 +90,14 @@ export default function AuthForm() {
 								<FormLabel>Password</FormLabel>
 								<FormControl>
 									<Input
-										placeholder="shadcn"
+										placeholder="Enter Password"
 										{...field}
 										type="password"
 									/>
 								</FormControl>
 								<FormDescription>
 									{
-										"contact your admin if you forgot your password"
+										"Contact your admin if you forgot your password"
 									}
 								</FormDescription>
 								<FormMessage />
@@ -111,9 +111,7 @@ export default function AuthForm() {
 					>
 						Login{" "}
 						<AiOutlineLoading3Quarters
-							className={cn("animate-spin", {
-								hidden: true,
-							})}
+							className={cn("animate-spin", { hidden: !isPending })}
 						/>
 					</Button>
 				</form>

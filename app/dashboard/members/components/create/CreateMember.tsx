@@ -8,7 +8,7 @@ export default function CreateMember() {
 		<DailogForm
 			id="create-trigger"
 			title="Create Member"
-			Trigger={<Button variant="outline">Create+</Button>}
+			Trigger={<Button variant="outline">Create</Button>}
 			form={<CreateForm />}
 		/>
 	);
