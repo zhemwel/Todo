@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useUserStore } from "@/lib/store/user";
-import { readMembers } from "../actions";
+import { getPaginatedMembers, readMembers } from "../actions";
 import { IPermission } from "@/lib/types";
 import DeleteMember from "./DeleteMember";
 import EditMember from "./edit/EditMember";
@@ -17,25 +16,62 @@ export default function ListOfMembers({
 }) {
   const [permissions, setPermissions] = useState<IPermission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1); // Current page
+  const [totalPages, setTotalPages] = useState(1); // Total pages available
+
+  const pageSize = 15;
+
+  // Fetch members based on search query and pagination
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      let data = [];
+      let count = 0;
+
+      const result = await getPaginatedMembers(page, pageSize);
+      data = result.data || [];
+      count = result.count || 0;
+
+      setPermissions(data);
+      setTotalPages(Math.ceil(count / pageSize));
+      setLoading(false);
+    };
+
+    if (!searchQuery) fetchData();
+  }, [searchQuery, page]);
+
+	const handleNextPage = () => {
+    if (page < totalPages) setPage(page + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) setPage(page - 1);
+  };
 
   // Use effect to fetch data after component mounts
   useEffect(() => {
     const fetchData = async () => {
+			setPage(1);
       const { data } = await readMembers();
       setPermissions(data || []);
       setLoading(false);
     };
 
-    fetchData();
-  }, []); // Empty dependency array to only fetch data on mount
+    if (searchQuery.length > 3) fetchData();
+  }, [searchQuery]); // Empty dependency array to only fetch data on mount
 
   const filteredPermissions = permissions?.filter((permission: IPermission) => {
     const searchLower = searchQuery.toLowerCase();
-    return (
-      permission.member.name.toLowerCase().includes(searchLower) ||
-      permission.role.toLowerCase().includes(searchLower) ||
-      permission.status.toLowerCase().includes(searchLower)
-    );
+		if (searchQuery.length > 3) {
+			return (
+        permission.member.name.toLowerCase().includes(searchLower) ||
+        permission.role.toLowerCase().includes(searchLower) ||
+        permission.status.toLowerCase().includes(searchLower)
+      )
+		} else {
+			return permission;
+		}
   });
 
   if (loading) {
@@ -88,6 +124,26 @@ export default function ListOfMembers({
             </div>
           </div>
         ))}
+
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={handlePreviousPage}
+          disabled={page === 1}
+          className="px-3 py-1 border rounded"
+        >
+          Previous
+        </button>
+        <span>
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={page === totalPages}
+          className="px-3 py-1 border rounded"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

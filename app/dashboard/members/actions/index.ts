@@ -196,3 +196,21 @@ export async function readMembers(searchQuery: string = "") {
   return await query;
 }
 
+// Function to get paginated members
+export async function getPaginatedMembers(page: number = 1, pageSize: number = 15) {
+  const supabase = await createSupabaseServerClient();
+
+  const offset = (page - 1) * pageSize;
+
+  // Fetch members with pagination
+  const { data, count, error } = await supabase
+    .from("permission")
+    .select("*, member(*)", { count: "exact" })
+    .range(offset, offset + pageSize - 1);
+
+  if (error) {
+    console.error("Error during pagination:", error);
+  }
+
+  return { data, count };
+}

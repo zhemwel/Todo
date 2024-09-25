@@ -10,8 +10,13 @@ export default function SearchMembers({
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-    onSearch(e.target.value);
+		if (e.target.value.length > 3) {
+			setSearchQuery(e.target.value);
+      onSearch(e.target.value);
+		} else {
+			setSearchQuery(e.target.value);
+      onSearch("");
+		}
   };
 
   return (
