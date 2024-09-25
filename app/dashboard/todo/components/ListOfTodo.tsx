@@ -16,7 +16,7 @@ export default async function ListOfTodo() {
               className=" grid grid-cols-5  rounded-sm  p-3 align-middle font-normal "
               key={index}
             >
-              <h1 className="flex items-center dark:text-white text-lg">
+              <h1 className="flex items-center dark:text-white text-lg break-words whitespace-normal pr-2">
                 {todo.title}
               </h1>
 
