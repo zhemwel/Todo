@@ -1,27 +1,19 @@
-import React from "react";
-import MemberTable from "./components/MemberTable";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import SearchMembers from "./components/SearchMembers";
-import CreateMember from "./components/create/CreateMember";
+import type { Metadata } from "next";
+import Member from "./Member";
 import { useUserStore } from "@/lib/store/user";
 
-export default function Members() {
-	const user = useUserStore.getState().user
+export const metadata: Metadata = {
+  title: "Member",
+  description: "Todo List",
+};
 
-	const isAdmin = user?.user_metadata.role === "admin"
+export default function Page() {
+  const user = useUserStore.getState().user;
 
-	return (
-		<div className="space-y-5 w-full overflow-y-auto px-3">
-			<h1 className="text-3xl font-bold">Members</h1>
-			{isAdmin && (
-				<div className="flex gap-2">
-					<SearchMembers />
-					<CreateMember />
-				</div>
-			)}
-
-			<MemberTable />
-		</div>
-	);
+  const isAdmin = user?.user_metadata.role === "admin";
+  return (
+    <>
+      <Member isAdmin={isAdmin} />
+    </>
+  );
 }

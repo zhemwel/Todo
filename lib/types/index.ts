@@ -9,8 +9,8 @@ export type IPermission = {
     created_at: string;
     name: string;
     email: string;
-  }
-}
+  };
+};
 
 export type ITodo = {
   id: string;

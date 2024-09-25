@@ -1,40 +1,44 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
-import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-	FormDescription,
-} from "@/components/ui/form";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "@/lib/utils";
 import { IPermission } from "@/lib/types";
 import { updateMemberAdvanceById } from "../../actions";
 import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
-	role: z.enum(["admin", "user"]),
-	status: z.enum(["active", "resigned"]),
+  role: z.enum(["admin", "user"]),
+  status: z.enum(["active", "resigned"]),
 });
 
-export default function AdvanceForm({ permission }: { permission: IPermission }) {
-	const [isPending, startTransition] = useTransition();
+export default function AdvanceForm({
+  permission,
+}: {
+  permission: IPermission;
+}) {
+  const [isPending, startTransition] = useTransition();
   const roles = ["admin", "user"];
   const status = ["active", "resigned"];
 
@@ -47,7 +51,7 @@ export default function AdvanceForm({ permission }: { permission: IPermission })
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-		startTransition(async () => {
+    startTransition(async () => {
       const { error } = JSON.parse(
         await updateMemberAdvanceById(permission.id, permission.member_id, data)
       );
@@ -65,6 +69,7 @@ export default function AdvanceForm({ permission }: { permission: IPermission })
         toast({
           title: "Success updated",
         });
+        window.location.reload();
       }
     });
   }

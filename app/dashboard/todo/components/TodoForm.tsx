@@ -1,44 +1,39 @@
 "use client";
 import { Input } from "@/components/ui/input";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { createTodo, updateTodoById } from "../actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "@/lib/utils";
 import { useTransition } from "react";
-import { ITodo } from "@/lib/types";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const FormSchema = z.object({
-	title: z.string().min(10, {
-		message: "Title must be at least 10 characters.",
-	}),
-	completed: z.boolean(),
+  title: z.string().min(10, {
+    message: "Title must be at least 10 characters.",
+  }),
+  completed: z.boolean(),
 });
 
-export default function TodoForm({ isEdit, todo }: { isEdit: boolean; todo: ITodo }) {
+export default function TodoForm({
+  isEdit,
+  todo,
+}: {
+  isEdit: boolean;
+  todo: any;
+}) {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof FormSchema>>({

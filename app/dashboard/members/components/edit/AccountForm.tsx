@@ -3,16 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
-import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -20,19 +10,33 @@ import { cn } from "@/lib/utils";
 import { IPermission } from "@/lib/types";
 import { updateMemberAccountById } from "../../actions";
 import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const FormSchema = z
-	.object({
-		email: z.string().email(),
-		password: z.string().optional(),
-		confirm: z.string().optional(),
-	})
-	.refine((data) => data.confirm === data.password, {
-		message: "Passowrd doesn't match",
-		path: ["confirm"],
-	});
+  .object({
+    email: z.string().email(),
+    password: z.string().optional(),
+    confirm: z.string().optional(),
+  })
+  .refine((data) => data.confirm === data.password, {
+    message: "Passowrd doesn't match",
+    path: ["confirm"],
+  });
 
-export default function AccountForm({ permission }: { permission: IPermission }) {
+export default function AccountForm({
+  permission,
+}: {
+  permission: IPermission;
+}) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,10 +50,7 @@ export default function AccountForm({ permission }: { permission: IPermission })
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
       const { error } = JSON.parse(
-        await updateMemberAccountById(
-          permission.member_id,
-          data
-        )
+        await updateMemberAccountById(permission.member_id, data)
       );
 
       if (error?.message) {
@@ -65,6 +66,7 @@ export default function AccountForm({ permission }: { permission: IPermission })
         toast({
           title: "Success updated",
         });
+        window.location.reload();
       }
     });
   }
