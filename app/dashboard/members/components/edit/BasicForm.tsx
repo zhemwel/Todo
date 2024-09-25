@@ -57,6 +57,7 @@ export default function BasicForm({ permission }: { permission: IPermission }) {
 				toast({
           title: "Success updated",
         });
+        window.location.reload();
 			}
 		})
   }

@@ -9,7 +9,7 @@ export default function CreateTodo() {
 			id="create-trigger"
 			title="Create Todo"
 			Trigger={<Button variant="outline">Create</Button>}
-			form={<TodoForm isEdit={false} />}
+			form={<TodoForm todo={null} isEdit={false} />}
 		/>
 	);
 }

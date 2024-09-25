@@ -86,6 +86,8 @@ export default function MemberForm() {
 				toast({
 					title: "Success Created Member",
 				});
+
+				window.location.reload();
 			}
 		})
 	}

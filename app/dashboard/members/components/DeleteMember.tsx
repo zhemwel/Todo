@@ -23,6 +23,8 @@ export default function DeleteMember({ user_id }: {user_id: string}) {
         toast({
           title: "Success delete member",
         });
+
+        window.location.reload();
       }
     })
   }
@@ -30,7 +32,7 @@ export default function DeleteMember({ user_id }: {user_id: string}) {
   return (
     <form action={onSubmit}>
       <Button variant="outline">
-          Delete
+          Delete&nbsp;
         <AiOutlineLoading3Quarters
           className={cn("animate-spin", { hidden: !isPending })}
         />

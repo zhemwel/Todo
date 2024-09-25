@@ -1,35 +1,60 @@
-import React from "react";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import EditMember from "./edit/EditMember";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/lib/store/user";
 import { readMembers } from "../actions";
 import { IPermission } from "@/lib/types";
 import DeleteMember from "./DeleteMember";
+import EditMember from "./edit/EditMember";
+import { cn } from "@/lib/utils";
 
-export default async function ListOfMembers() {
-	const { data: permissions } =  await readMembers()
+export default function ListOfMembers({
+  searchQuery,
+  isAdmin,
+}: {
+  searchQuery: string;
+  isAdmin: boolean;
+}) {
+  const [permissions, setPermissions] = useState<IPermission[]>([]);
+  const [loading, setLoading] = useState(true);
 
-	const user = useUserStore.getState().user
+  // Use effect to fetch data after component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await readMembers();
+      setPermissions(data || []);
+      setLoading(false);
+    };
 
-	const isAdmin = user?.user_metadata.role === "admin"
+    fetchData();
+  }, []); // Empty dependency array to only fetch data on mount
 
-	return (
+  const filteredPermissions = permissions?.filter((permission: IPermission) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      permission.member.name.toLowerCase().includes(searchLower) ||
+      permission.role.toLowerCase().includes(searchLower) ||
+      permission.status.toLowerCase().includes(searchLower)
+    );
+  });
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
     <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
-      {Array.isArray(permissions) && permissions.map((permission: IPermission, index: number) => {
-        return (
+      {Array.isArray(filteredPermissions) &&
+        filteredPermissions.map((permission: IPermission, index: number) => (
           <div
-            className=" grid grid-cols-5  rounded-sm  p-3 align-middle font-normal"
+            className="grid grid-cols-5 rounded-sm p-3 align-middle font-normal"
             key={index}
           >
             <h1>{permission.member.name}</h1>
-
             <div>
               <span
                 className={cn(
-                  " dark:bg-zinc-800 px-2 py-1 rounded-full shadow capitalize  border-[.5px] text-sm",
+                  "dark:bg-zinc-800 px-2 py-1 rounded-full shadow capitalize border-[.5px] text-sm",
                   {
                     "border-green-500 text-green-600 bg-green-200":
                       permission.role === "admin",
@@ -45,7 +70,7 @@ export default async function ListOfMembers() {
             <div>
               <span
                 className={cn(
-                  " dark:bg-zinc-800 px-2 py-1 rounded-full  capitalize text-sm border-zinc-300  border",
+                  "dark:bg-zinc-800 px-2 py-1 rounded-full capitalize text-sm border-zinc-300 border",
                   {
                     "text-green-600 px-4 dark:border-green-400 bg-green-200":
                       permission.status === "active",
@@ -57,17 +82,12 @@ export default async function ListOfMembers() {
                 {permission.status}
               </span>
             </div>
-
             <div className="flex gap-2 items-center">
-							<EditMember isAdmin={isAdmin} permission={permission} />
-
-							{isAdmin && (
-                <DeleteMember user_id={permission.member.id} />
-              )}
+              <EditMember isAdmin={isAdmin} permission={permission} />
+              {isAdmin && <DeleteMember user_id={permission.member.id} />}
             </div>
           </div>
-        );
-      })}
+        ))}
     </div>
   );
 }

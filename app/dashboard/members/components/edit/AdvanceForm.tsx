@@ -65,6 +65,7 @@ export default function AdvanceForm({ permission }: { permission: IPermission })
         toast({
           title: "Success updated",
         });
+        window.location.reload();
       }
     });
   }

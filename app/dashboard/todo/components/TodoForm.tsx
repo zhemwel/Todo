@@ -38,7 +38,7 @@ const FormSchema = z.object({
 	completed: z.boolean(),
 });
 
-export default function TodoForm({ isEdit, todo }: { isEdit: boolean; todo: ITodo }) {
+export default function TodoForm({ isEdit, todo }: { isEdit: boolean; todo: any }) {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof FormSchema>>({

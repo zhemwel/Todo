@@ -5,7 +5,7 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import MemberForm from "./TodoForm";
 import { ITodo } from "@/lib/types";
 
-export default function EditTodo({ todo }: { todo: ITodo }) {
+export default function EditTodo({ todo }: { todo: any }) {
   return (
     <DailogForm
       id="update-trigger"

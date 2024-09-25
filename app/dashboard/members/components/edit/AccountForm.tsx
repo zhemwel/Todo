@@ -65,6 +65,7 @@ export default function AccountForm({ permission }: { permission: IPermission })
         toast({
           title: "Success updated",
         });
+        window.location.reload();
       }
     });
   }

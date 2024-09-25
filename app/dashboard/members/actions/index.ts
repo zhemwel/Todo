@@ -177,9 +177,22 @@ export async function deleteMemberById(user_id: string) {
   }
 }
 
-export async function readMembers() {
+export async function readMembers(searchQuery: string = "") {
   unstable_noStore();
-
   const supabase = await createSupabaseServerClient();
-  return await supabase.from("permission").select("*, member(*)");
+
+  const searchLower = searchQuery.toLowerCase();
+
+  // Filter on server side if searchQuery is provided
+  let query = supabase.from("permission").select("*, member(*)");
+
+  if (searchQuery) {
+    query = query
+      .ilike("member.name", `%${searchLower}%`)
+      .or(`role.ilike.%${searchLower}%`)
+      .or(`status.ilike.%${searchLower}%`);
+  }
+
+  return await query;
 }
+

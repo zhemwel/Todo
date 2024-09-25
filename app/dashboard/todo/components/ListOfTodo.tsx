@@ -14,7 +14,7 @@ export default async function ListOfTodo() {
 	return (
     <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
       {Array.isArray(todos) &&
-        todos.map((todo: ITodo, index: number) => {
+        todos.map((todo: any, index: number) => {
           return (
             <div
               className=" grid grid-cols-5  rounded-sm  p-3 align-middle font-normal "
