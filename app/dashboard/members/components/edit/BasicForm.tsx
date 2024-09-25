@@ -3,16 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -21,14 +12,23 @@ import { IPermission } from "@/lib/types";
 import { updateMemberBasicById } from "../../actions";
 import { useTransition } from "react";
 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 const FormSchema = z.object({
-	name: z.string().min(2, {
-		message: "Name must be at least 2 characters.",
-	}),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
 });
 
 export default function BasicForm({ permission }: { permission: IPermission }) {
-	const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -37,29 +37,27 @@ export default function BasicForm({ permission }: { permission: IPermission }) {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-		startTransition(async () => {
-			const { error } = JSON.parse(
+    startTransition(async () => {
+      const { error } = JSON.parse(
         await updateMemberBasicById(permission.member_id, data)
       );
 
-			if (error?.message) {
-				toast({
+      if (error?.message) {
+        toast({
           title: "Failed to update",
           description: (
             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">
-                { error.message }
-              </code>
+              <code className="text-white">{error.message}</code>
             </pre>
           ),
         });
-			} else {
-				toast({
+      } else {
+        toast({
           title: "Success updated",
         });
         window.location.reload();
-			}
-		})
+      }
+    });
   }
 
   return (

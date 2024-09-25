@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { getPaginatedMembers, readMembers } from "../actions";
 import { IPermission } from "@/lib/types";
@@ -41,7 +40,7 @@ export default function ListOfMembers({
     if (!searchQuery) fetchData();
   }, [searchQuery, page]);
 
-	const handleNextPage = () => {
+  const handleNextPage = () => {
     if (page < totalPages) setPage(page + 1);
   };
 
@@ -52,7 +51,7 @@ export default function ListOfMembers({
   // Use effect to fetch data after component mounts
   useEffect(() => {
     const fetchData = async () => {
-			setPage(1);
+      setPage(1);
       const { data } = await readMembers();
       setPermissions(data || []);
       setLoading(false);
@@ -63,19 +62,23 @@ export default function ListOfMembers({
 
   const filteredPermissions = permissions?.filter((permission: IPermission) => {
     const searchLower = searchQuery.toLowerCase();
-		if (searchQuery.length > 3) {
-			return (
+    if (searchQuery.length > 3) {
+      return (
         permission.member.name.toLowerCase().includes(searchLower) ||
         permission.role.toLowerCase().includes(searchLower) ||
         permission.status.toLowerCase().includes(searchLower)
-      )
-		} else {
-			return permission;
-		}
+      );
+    } else {
+      return permission;
+    }
   });
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="grid grid-cols-5 rounded-sm p-3 align-middle font-normal">
+        <h1 className="ml-4">Loading...</h1>
+      </div>
+    );
   }
 
   return (

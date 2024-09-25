@@ -7,14 +7,14 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PinLeftIcon } from "@radix-ui/react-icons";
 
 export default function SignOut() {
-	const [isPending, startTransition] = useTransition();
-	const onSubmit = async () => {
-		startTransition(async () => {
-			await logout();
-		});
-	};
+  const [isPending, startTransition] = useTransition();
+  const onSubmit = async () => {
+    startTransition(async () => {
+      await logout();
+    });
+  };
 
-	return (
+  return (
     <form action={onSubmit}>
       <Button className="w-full flex items-center gap-2" variant="outline">
         <PinLeftIcon />

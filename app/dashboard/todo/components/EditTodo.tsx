@@ -1,9 +1,7 @@
 import React from "react";
 import DailogForm from "./DialogForm";
 import { Button } from "@/components/ui/button";
-import { Pencil1Icon } from "@radix-ui/react-icons";
 import MemberForm from "./TodoForm";
-import { ITodo } from "@/lib/types";
 
 export default function EditTodo({ todo }: { todo: any }) {
   return (

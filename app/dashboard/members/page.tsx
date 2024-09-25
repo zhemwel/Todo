@@ -4,14 +4,13 @@ import { useUserStore } from "@/lib/store/user";
 
 export const metadata: Metadata = {
   title: "Member",
-  description:
-    "Todo List",
+  description: "Todo List",
 };
 
 export default function Page() {
-	const user = useUserStore.getState().user;
+  const user = useUserStore.getState().user;
 
-	const isAdmin = user?.user_metadata.role === "admin";
+  const isAdmin = user?.user_metadata.role === "admin";
   return (
     <>
       <Member isAdmin={isAdmin} />

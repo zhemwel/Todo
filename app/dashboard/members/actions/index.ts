@@ -96,7 +96,7 @@ export async function updateMemberAccountById(
     const supabase = await createSupabaseServerClient();
     const result = await supabase
       .from("member")
-      .update({email: data.email})
+      .update({ email: data.email })
       .eq("id", id);
     revalidatePath("/dashboard/member");
 
@@ -197,7 +197,10 @@ export async function readMembers(searchQuery: string = "") {
 }
 
 // Function to get paginated members
-export async function getPaginatedMembers(page: number = 1, pageSize: number = 15) {
+export async function getPaginatedMembers(
+  page: number = 1,
+  pageSize: number = 15
+) {
   const supabase = await createSupabaseServerClient();
 
   const offset = (page - 1) * pageSize;

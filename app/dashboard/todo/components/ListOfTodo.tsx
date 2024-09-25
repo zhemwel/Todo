@@ -1,17 +1,13 @@
 import React from "react";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
 import EditTodo from "./EditTodo";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { readTodos } from "../actions";
-import { ITodo } from "@/lib/types";
 import DeleteTodo from "./DeleteTodo";
 
 export default async function ListOfTodo() {
-	const { data: todos } = await readTodos();
+  const { data: todos } = await readTodos();
 
-	return (
+  return (
     <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
       {Array.isArray(todos) &&
         todos.map((todo: any, index: number) => {
