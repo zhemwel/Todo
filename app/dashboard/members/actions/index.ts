@@ -177,43 +177,8 @@ export async function deleteMemberById(user_id: string) {
   }
 }
 
-export async function readMembers(searchQuery: string = "") {
+export async function readMembers() {
   unstable_noStore();
   const supabase = await createSupabaseServerClient();
-
-  const searchLower = searchQuery.toLowerCase();
-
-  // Filter on server side if searchQuery is provided
-  let query = supabase.from("permission").select("*, member(*)");
-
-  if (searchQuery) {
-    query = query
-      .ilike("member.name", `%${searchLower}%`)
-      .or(`role.ilike.%${searchLower}%`)
-      .or(`status.ilike.%${searchLower}%`);
-  }
-
-  return await query;
-}
-
-// Function to get paginated members
-export async function getPaginatedMembers(
-  page: number = 1,
-  pageSize: number = 15
-) {
-  const supabase = await createSupabaseServerClient();
-
-  const offset = (page - 1) * pageSize;
-
-  // Fetch members with pagination
-  const { data, count, error } = await supabase
-    .from("permission")
-    .select("*, member(*)", { count: "exact" })
-    .range(offset, offset + pageSize - 1);
-
-  if (error) {
-    console.error("Error during pagination:", error);
-  }
-
-  return { data, count };
+  return await supabase.from("permission").select("*, member(*)");
 }

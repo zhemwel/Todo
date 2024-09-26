@@ -74,7 +74,7 @@ export default function ListOfTodo({ todos }: { todos: any[] }) {
           Prev
         </button>
         <span className="text-white">
-          Page {currentPage} of {Math.ceil(todos.length / todosPerPage)}
+          Page {currentPage} of {Math.ceil(todos.length / todosPerPage) || 1}
         </span>
         <button
           onClick={() => paginate(currentPage + 1)}
