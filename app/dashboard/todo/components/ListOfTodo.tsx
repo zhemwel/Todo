@@ -1,30 +1,42 @@
-import React from "react";
+"use client"; // Ini tetap diperlukan agar bisa menggunakan state
+
+import React, { useState } from "react";
 import EditTodo from "./EditTodo";
 import { cn } from "@/lib/utils";
-import { readTodos } from "../actions";
 import DeleteTodo from "./DeleteTodo";
 
-export default async function ListOfTodo() {
-  const { data: todos } = await readTodos();
+export default function ListOfTodo({ todos }: { todos: any[] }) {
+  // Pagination setup
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 5; // Set limit for todos per page
+
+  // Get current todos
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
-      {Array.isArray(todos) &&
-        todos.map((todo: any, index: number) => {
+      {Array.isArray(currentTodos) &&
+        currentTodos.map((todo: any, index: number) => {
+          const todoNumber = indexOfFirstTodo + index + 1; // Menghitung nomor urut global
           return (
             <div
-              className=" grid grid-cols-5  rounded-sm  p-3 align-middle font-normal "
+              className="grid grid-cols-5 rounded-sm p-3 align-middle font-normal"
               key={index}
             >
-              <h1 className="flex items-center dark:text-white text-lg">
-                {todo.title}
+              <h1 className="flex items-center dark:text-white text-lg break-words whitespace-normal pr-2">
+                {`${todoNumber}.`}&nbsp;&nbsp;{todo.title}
               </h1>
 
               <div className="flex items-center">
                 <div>
                   <span
                     className={cn(
-                      "  dark:bg-zinc-800 px-2 py-1 rounded-full shadow capitalize  border-[.5px] text-sm",
+                      "dark:bg-zinc-800 px-2 py-1 rounded-full shadow capitalize border-[.5px] text-sm",
                       {
                         "border-green-500 bg-green-400 dark:text-green-400":
                           todo.completed && "completed",
@@ -51,6 +63,27 @@ export default async function ListOfTodo() {
             </div>
           );
         })}
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center my-5 items-center space-x-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 mx-2 bg-gray-500 rounded-md text-white"
+        >
+          Prev
+        </button>
+        <span className="text-white">
+          Page {currentPage} of {Math.ceil(todos.length / todosPerPage)}
+        </span>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={indexOfLastTodo >= todos.length}
+          className="px-3 py-1 mx-2 bg-gray-500 rounded-md text-white"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
