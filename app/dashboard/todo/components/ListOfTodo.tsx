@@ -14,7 +14,7 @@ export default function ListOfTodo({
 }) {
   // Pagination setup
   const [currentPage, setCurrentPage] = useState(1);
-  const todosPerPage = 5; // Set limit for todos per page
+  const todosPerPage = 15; // Set limit for todos per page
 
   // Get current todos
   const indexOfLastTodo = currentPage * todosPerPage;
