@@ -1,11 +1,28 @@
+"use client";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function SearchMembers() {
+export default function SearchMembers({
+  onSearch,
+}: {
+  onSearch: (query: string) => void;
+}) {
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    if (query.length >= 4) {
+      onSearch(query);
+    } else if (query.length < 4) {
+      onSearch(""); // Reset search when the query is cleared
+    }
+  }, [query, onSearch]);
+
   return (
     <Input
       placeholder="Search"
-      className=" ring-zinc-300 bg-white dark:bg-inherit focus:dark:ring-zinc-700  focus:ring-zinc-300"
+      className="border-zinc-600 focus:border-zinc-600"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
     />
   );
 }

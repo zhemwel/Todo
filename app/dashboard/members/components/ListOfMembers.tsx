@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditMember from "./edit/EditMember";
 import { cn } from "@/lib/utils";
 import DeleteMember from "./DeleteMember";
@@ -7,13 +7,15 @@ import DeleteMember from "./DeleteMember";
 export default function ListOfMembers({
   permissions,
   isAdmin,
+  query,
 }: {
   permissions: any[];
   isAdmin: boolean;
+  query: boolean;
 }) {
   // Pagination setup
   const [currentPage, setCurrentPage] = useState(1);
-  const permissionsPerPage = 15; // Set limit for todos per page
+  const permissionsPerPage = 2; // Set limit for todos per page
 
   // Get current permission
   const indexOfLastPermisson = currentPage * permissionsPerPage;
@@ -25,6 +27,10 @@ export default function ListOfMembers({
 
   // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query]);
 
   return (
     <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
