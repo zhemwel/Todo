@@ -1,11 +1,17 @@
 "use client"; // Ini tetap diperlukan agar bisa menggunakan state
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditTodo from "./EditTodo";
 import { cn } from "@/lib/utils";
 import DeleteTodo from "./DeleteTodo";
 
-export default function ListOfTodo({ todos }: { todos: any[] }) {
+export default function ListOfTodo({
+  todos,
+  query,
+}: {
+  todos: any[];
+  query: boolean;
+}) {
   // Pagination setup
   const [currentPage, setCurrentPage] = useState(1);
   const todosPerPage = 5; // Set limit for todos per page
@@ -17,6 +23,10 @@ export default function ListOfTodo({ todos }: { todos: any[] }) {
 
   // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query]);
 
   return (
     <div className="dark:bg-inherit bg-white mx-2 rounded-sm">
