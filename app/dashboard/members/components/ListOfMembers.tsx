@@ -15,7 +15,7 @@ export default function ListOfMembers({
 }) {
   // Pagination setup
   const [currentPage, setCurrentPage] = useState(1);
-  const permissionsPerPage = 2; // Set limit for todos per page
+  const permissionsPerPage = 15; // Set limit for todos per page
 
   // Get current permission
   const indexOfLastPermisson = currentPage * permissionsPerPage;
