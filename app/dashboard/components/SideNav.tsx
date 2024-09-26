@@ -14,7 +14,7 @@ export const SideBar = ({ className }: { className?: string }) => {
     <div className={className}>
       <div
         className={cn(
-          "h-full w-full lg:w-96 lg:p-10 space-y-5 lg:border-r flex flex-col "
+          "h-full w-full lg:w-96 lg:p-10 space-y-5 lg:border-r flex flex-col fixed top-0 bg-white dark:bg-gray-900" // Pastikan background color diatur
         )}
       >
         <div className="flex-1 space-y-5">
@@ -29,6 +29,11 @@ export const SideBar = ({ className }: { className?: string }) => {
           <SignOut />
         </div>
       </div>
+      <div
+        className={cn(
+          "h-full w-full lg:w-96 lg:p-10 space-y-5 lg:border-r flex flex-col" // Pastikan background color diatur
+        )}
+      ></div>
     </div>
   );
 };
