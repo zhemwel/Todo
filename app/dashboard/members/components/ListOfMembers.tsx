@@ -92,7 +92,7 @@ export default function ListOfMembers({
         >
           Prev
         </button>
-        <span className="text-white">
+        <span className="dark:text-white">
           Page {currentPage} of{" "}
           {Math.ceil(permissions.length / permissionsPerPage)}
         </span>
