@@ -1,6 +1,6 @@
 {
-  "name": "next-supabase-user-role-access",
-  "version": "0.1.0",
+  "name": "todo-zhemwel",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
