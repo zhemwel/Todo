@@ -82,7 +82,7 @@ export default function ListOfTodo({
         >
           Prev
         </button>
-        <span className="text-white">
+        <span className="dark:text-white">
           Page {currentPage} of {Math.ceil(todos.length / todosPerPage) || 1}
         </span>
         <button
