@@ -1,6 +1,5 @@
 import React from "react";
 import NavLinks from "./NavLinks";
-
 import { cn } from "@/lib/utils";
 import ModeToggle from "../todo/components/ToggleDarkMode";
 import SignOut from "./SignOut";

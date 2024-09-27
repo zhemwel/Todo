@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+
 export default function ToggleSidebar() {
   return (
     <Button
