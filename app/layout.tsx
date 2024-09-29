@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
   title: {
     template: "%s | Zhemwel Daily Todo",
-    default: "Zhemwel Daily Todo",
+    default: "Daily Todo | Zhemwel",
   },
   authors: {
     name: "Zhemwel Dev",
