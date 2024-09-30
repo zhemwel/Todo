@@ -11,7 +11,11 @@ export default async function MembersPage() {
   // Pastikan bahwa userSession tidak null
   const isAdmin = userSession.session?.user.user_metadata.role === "admin";
 
-  return (
-    <Members permissions={safePermission} isAdmin={isAdmin} />
-  );
+  const sortedPermission = safePermission.sort((a, b) => {
+    if (a.role === "admin" && b.role === "user") return -1;
+    if (a.role === "user" && b.role === "admin") return 1;
+    return 0;
+  });
+
+  return <Members permissions={sortedPermission} isAdmin={isAdmin} />;
 }
