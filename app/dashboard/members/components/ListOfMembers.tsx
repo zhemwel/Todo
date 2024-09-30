@@ -78,7 +78,7 @@ export default function ListOfMembers({
               </div>
               <div className="flex gap-2 items-center">
                 <EditMember isAdmin={isAdmin} permission={permission} />
-                {isAdmin && <DeleteMember user_id={permission.member.id} />}
+                {/* {isAdmin && <DeleteMember user_id={permission.member.id} />} */}
               </div>
             </div>
           );
