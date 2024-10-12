@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: "Build dashboard with next.js and supabase ",
     url: "https://todo.zhemwel.net/",
     siteName: "Zhemwel Daily Todo",
-    images: "/og.png",
+    images: "/zhemwel.png",
     type: "website",
   },
   keywords: ["daily web coding", "Zhemwel Dev", "Shemwel Dennis"],
