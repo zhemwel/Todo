@@ -150,31 +150,40 @@ export async function updateMemberAdvanceById(
   }
 }
 
-export async function deleteMemberById(user_id: string) {
-  const { data: userSession } = await readUserSession();
+export async function deleteMemberById(id: string, kembalikan: boolean) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from("permission")
+    .update({ hapus: !kembalikan })
+    .eq("id", id);
+  revalidatePath("/dashboard/members");
 
-  if (userSession.session?.user.user_metadata.role !== "admin") {
-    return JSON.stringify({
-      error: { message: "You are not allowed to do this!" },
-    });
-  }
+  return JSON.stringify(result);
 
-  const supabase = await createSupabaseAdmin();
+  // const { data: userSession } = await readUserSession();
 
-  const result = await supabase.auth.admin.deleteUser(user_id);
+  // if (userSession.session?.user.user_metadata.role !== "admin") {
+  //   return JSON.stringify({
+  //     error: { message: "You are not allowed to do this!" },
+  //   });
+  // }
 
-  if (result.error?.message) {
-    return JSON.stringify(result);
-  } else {
-    const supabase = await createSupabaseServerClient();
-    const deleteResult = await supabase
-      .from("member")
-      .delete()
-      .eq("id", user_id);
-    revalidatePath("/dashboard/member");
+  // const supabase = await createSupabaseAdmin();
 
-    return JSON.stringify(deleteResult);
-  }
+  // const result = await supabase.auth.admin.deleteUser(user_id);
+
+  // if (result.error?.message) {
+  //   return JSON.stringify(result);
+  // } else {
+  //   const supabase = await createSupabaseServerClient();
+  //   const deleteResult = await supabase
+  //     .from("member")
+  //     .delete()
+  //     .eq("id", user_id);
+  //   revalidatePath("/dashboard/member");
+
+  //   return JSON.stringify(deleteResult);
+  // }
 }
 
 export async function readMembers() {

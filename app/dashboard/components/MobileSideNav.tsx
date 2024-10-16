@@ -21,7 +21,11 @@ export default function MobileSideNav() {
       <SheetTrigger asChild id="toggle-sidebar">
         <span></span>
       </SheetTrigger>
-      <SheetContent side={"left"} className="dark:bg-graident-dark flex">
+      {/* Ensure the sidebar content takes full width on mobile */}
+      <SheetContent
+        side={"left"}
+        className="dark:bg-graident-dark flex p-0 m-0"
+      >
         <SideBar />
       </SheetContent>
     </Sheet>

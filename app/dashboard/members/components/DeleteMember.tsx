@@ -6,24 +6,30 @@ import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function DeleteMember({ user_id }: { user_id: string }) {
+export default function DeleteMember({
+  id,
+  kembalikan,
+}: {
+  id: string;
+  kembalikan: boolean;
+}) {
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = () => {
     startTransition(async () => {
-      const result = await deleteMemberById(user_id);
-      const { error } = JSON.parse(result);
+      const result = JSON.parse(await deleteMemberById(id, kembalikan));
 
-      if (error?.message) {
+      if (result?.error?.message) {
+        console.log(result?.error?.message);
         toast({
-          title: "Failed to delete",
+          title: `Gagal ${kembalikan ? "Pulihkan" : "Hapus"} Member`,
         });
       } else {
-        toast({
-          title: "Success delete member",
-        });
+        // document.getElementById("update-trigger")?.click();
 
-        window.location.reload();
+        toast({
+          title: `Sukses ${kembalikan ? "Pulihkan" : "Hapus"} Member`,
+        });
       }
     });
   };
@@ -31,7 +37,7 @@ export default function DeleteMember({ user_id }: { user_id: string }) {
   return (
     <form action={onSubmit}>
       <Button variant="outline">
-        Delete&nbsp;
+        {kembalikan ? "Pulihkan" : "Hapus"}&nbsp;
         <AiOutlineLoading3Quarters
           className={cn("animate-spin", { hidden: !isPending })}
         />
