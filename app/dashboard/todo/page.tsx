@@ -9,7 +9,7 @@ export default async function Todo() {
   const sortedTodos = safeTodos.sort((a, b) => {
     if (!a.completed && b.completed) return -1;
     if (a.completed && !b.completed) return 1;
-    return 0;
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 
   return <Todos todos={sortedTodos} />;

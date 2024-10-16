@@ -31,9 +31,14 @@ export default function NavLinks() {
             href={link.href}
             key={index}
             className={cn("flex items-center gap-2 rounded-sm p-2", {
-              " bg-green-500 dark:bg-green-700 text-white ":
+              // Adding padding-right when active, with default padding for the rest of the component
+              "bg-green-500 dark:bg-green-700 text-white mr-10":
                 pathname === link.href,
+              "hover:bg-green-700 mr-10": pathname !== link.href, // For hover effect on inactive links
             })}
+            style={{
+              paddingRight: pathname === link.href ? "10px" : "0px",
+            }} // Ensure padding is applied dynamically
           >
             <Icon />
             {link.text}
